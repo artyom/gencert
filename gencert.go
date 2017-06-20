@@ -80,7 +80,7 @@ func parseCA(data []byte) (*x509.Certificate, error) {
 func generateCA() ([]byte, *ecdsa.PrivateKey, error) { return generateCertificate(nil, nil, nil) }
 
 func generateCertificate(signer *x509.Certificate, signerKey interface{}, hosts []string) ([]byte, *ecdsa.PrivateKey, error) {
-	key, err := ecdsa.GenerateKey(elliptic.P521(), rand.Reader)
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
 		return nil, nil, err
 	}
