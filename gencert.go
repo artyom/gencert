@@ -26,11 +26,13 @@ func main() {
 		ClientCertFile string `flag:"client.cert,file to save client certificate"`
 		ServerKeyFile  string `flag:"server.key,file to save server certificate key"`
 		ServerCertFile string `flag:"server.cert,file to save server certificate"`
+		CAFile         string `flag:"ca,file to save CA certificate"`
 	}{
 		ClientKeyFile:  "client-key.pem",
 		ClientCertFile: "client-cert.pem",
 		ServerKeyFile:  "server-key.pem",
 		ServerCertFile: "server-cert.pem",
+		CAFile:         "ca.pem",
 	}
 	autoflags.Define(&params)
 	flag.Parse()
@@ -53,6 +55,9 @@ func main() {
 	}
 	clientCert, clientKey, err := generateCertificate(ca, caKey, nil)
 	if err != nil {
+		log.Fatal(err)
+	}
+	if err := saveCerts(params.CAFile, caCert); err != nil {
 		log.Fatal(err)
 	}
 	if err := saveCerts(params.ServerCertFile, serverCert, caCert); err != nil {
